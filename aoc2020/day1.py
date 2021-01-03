@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+"""
+Day 1 - Advent of Code 2020
+https://adventofcode.com/2020/day/1
+"""
 
 import os
 
@@ -7,72 +11,45 @@ from operator import mul
 
 from .config import input_dir
 
-def find_addend_to_sum_to_num(term1, terms, total=2020):
+
+def find_terms_adding_to_x(terms, n=2, total=2020):
+    """ Given a list of integer `terms`, find the `n` terms that add
+    to `total`
+
+    Return those `n` terms as a tuple of integers.
     """
-    Given a term (integer) and a list of terms, find the other term in the list
-    of terms to satisfy:
+    if len(terms) == 0:
+        return []
 
-    term + ____ = total
+    if n == 1:
+        if total in terms:
+            return [total]
+        return []
 
-    Returns an integer
-    """
-    assert isinstance(term1, int)
-    assert isinstance(terms, list)
-    assert isinstance(total, int)
-
-    matches = [x for x in terms if total - x == term1]
-    if len(matches) < 1:
-        return None
-    return matches[0]
-
-
-def find_terms_adding_to_num(terms, total=2020):
-    """
-    Given a list of `terms`, find the two that add to `total`
-
-    Returns a tuple of integers
-    """
-    assert isinstance(terms, list)
-    assert isinstance(total, int)
-
-    lower = [x for x in terms if x <= total / 2]
-    upper = [x for x in terms if x > total / 2]
-    half = [x for x in lower if x == total / 2]
-
-    if len(half) == 2:
-        return (half[0], half[1])
-
-    for term in lower:
-        match = find_addend_to_sum_to_num(term, upper, total=2020)
-        if match:
-            return (term, match)
-
-    return (None, None)
-
-def solve_part_2(terms, total=2020):
-    term1 = terms.pop()
     working_terms = list(terms)
-    while len(working_terms) > 0:
-        term2 = working_terms.pop()
-        if term1 + term2 < total:
-            match = find_addend_to_sum_to_num(term1 + term2, working_terms,
-                                              total=total)
-            if match:
-                return (term1, term2, match)
+    term1 = working_terms.pop()
+    remaining_terms = list(working_terms)
+    matches = find_terms_adding_to_x(remaining_terms,
+                                     n=n-1,
+                                     total=total-term1)
+    if matches:
+        return [term1] + matches
 
-    return solve_part_2(terms, total=total)
+    return find_terms_adding_to_x(working_terms, n=n, total=total)
+
+
+def solve(terms, n=2, total=2020):
+    """ Given a list of integer `terms`, find the `n` terms that add
+    to `total` and return the product of those terms multiplied together """
+    return reduce(mul, find_terms_adding_to_x(terms, n=n, total=total))
 
 
 def run():
-    """ Day 1 Part 1 """
+    """ Day 1 """
     print('DAY 1')
     print('-----')
     with open(os.path.join(input_dir, 'day1.txt'), 'r') as f:
         input_data = [int(x) for x in f.readlines()]
 
-        print('Part 1: ', end='')
-        part1_terms = find_terms_adding_to_num(input_data, total=2020)
-        print(part1_terms[0] * part1_terms[1])
-
-        part2_terms = solve_part_2(input_data, total=2020)
-        print(f'Part 2: {reduce(mul, part2_terms)}')
+        print(f'Part 1: {solve(input_data, n=2, total=2020)}')
+        print(f'Part 2: {solve(input_data, n=3, total=2020)}')
