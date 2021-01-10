@@ -11,3 +11,6 @@ if __name__ == '__main__':
         if day == 1:
             from . import day1
             day1.run()
+        elif day == 2:
+            from . import day2
+            day2.run()

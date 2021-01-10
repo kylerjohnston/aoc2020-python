@@ -3,7 +3,7 @@
 from functools import reduce
 from operator import mul
 
-from aoc2020.day1 import find_terms_adding_to_num, find_terms_adding_to_x
+from aoc2020.day1 import find_terms_adding_to_x
 
 day1_test_data = [1721,
                   979,
