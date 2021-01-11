@@ -7,8 +7,6 @@ https://adventofcode.com/2020/day/2
 import re
 import os
 
-from .config import input_dir
-
 
 def is_valid(pwd_and_policy, policy='count'):
     """ Takes a string representing a password and policy, and a policy type
@@ -52,13 +50,11 @@ def count_valid(pwd_list, policy='count'):
     return len([x for x in pwd_list if is_valid(x, policy=policy)])
 
 
-def run():
-    """ Day 2 """
-    print('DAY 2')
-    print('-----')
-    with open(os.path.join(input_dir, 'day2.txt'), 'r') as f:
-        input_data = f.readlines()
+def solve_part_1(input_data):
+    """ Part 1"""
+    return count_valid(input_data)
 
-        print(f'Part 1: {count_valid(input_data)}')
-        part2 = count_valid(input_data, policy='positional')
-        print(f"Part 2: {part2}")
+
+def solve_part_2(input_data):
+    """ Part 2"""
+    return count_valid(input_data, policy='positional')

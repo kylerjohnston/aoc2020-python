@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from aoc2020.day2 import is_valid, count_valid
+from aoc2020.day2 import is_valid, count_valid, solve_part_1, solve_part_2
 
 day2_test_data = [
     "1-3 a: abcde",
@@ -12,6 +12,7 @@ def test_day2_part1():
     assert is_valid("2-9 c: ccccccccc")
     assert not is_valid("1-3 b: cdefg")
     assert count_valid(day2_test_data) == 2
+    assert solve_part_1(day2_test_data) == 2
 
 
 def test_day2_part2():
@@ -19,3 +20,4 @@ def test_day2_part2():
     assert not is_valid("2-9 c: ccccccccc", policy='positional')
     assert not is_valid("1-3 b: cdefg", policy='positional')
     assert count_valid(day2_test_data, policy='positional') == 1
+    assert solve_part_2(day2_test_data) == 1
