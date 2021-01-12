@@ -18,7 +18,7 @@ if __name__ == '__main__':
             print('\n' + day_str)
             print('-' * len(day_str))
             with open(os.path.join(input_dir, f'day{day}.txt'), 'r') as f:
-                input_data = f.readlines()
+                input_data = [x.strip() for x in f.readlines()]
                 print(f'Part 1: {day_mod.solve_part_1(input_data)}')
                 print(f'Part 2: {day_mod.solve_part_2(input_data)}')
         except ModuleNotFoundError as e:

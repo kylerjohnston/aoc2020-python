@@ -4,6 +4,9 @@ Day 3, 2020
 https://adventofcode.com/2020/day/3
 """
 
+from functools import reduce
+from operator import mul
+
 from colorama import Fore, Style
 
 class Map:
@@ -56,17 +59,24 @@ class Map:
                 trees += 1
             new_pos = self.update_pos(x, y)
             if not new_pos:
+                self.pos = {'x': 0, 'y': 0}
                 return trees
             self.print_pos()
 
 
 def solve_part_1(input_data):
     """ Solve Part 1 """
-    input_data = [x.strip() for x in input_data]
     m = Map(input_data)
     return m.find_trees_in_path()
 
 
 def solve_part_2(input_data):
     """ Part 2 """
-    return "Not implemented"
+    slopes = [(1, 1),
+              (3, 1),
+              (5, 1),
+              (7, 1),
+              (1, 2)]
+    m = Map(input_data)
+    trees_per_slope = [m.find_trees_in_path(slope=slope) for slope in slopes]
+    return reduce(mul, trees_per_slope)
