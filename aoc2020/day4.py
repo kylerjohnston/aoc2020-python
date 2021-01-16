@@ -43,7 +43,7 @@ def between(num, sm, lg):
     """ Given an integer `num`, return True if it is greater than or equal to
     `sm` and less than or equal to `lg`. """
     try:
-        if int(num) >= sm and int(num) <= lg:
+        if sm <= int(num) <= lg:
             return True
     except ValueError:
         pass
@@ -62,20 +62,6 @@ def validate_hgt(height):
     return False
 
 
-def validate_hcl(hcl):
-    """ Give a hair color string `hcl`, return True if valid, else False """
-    if re.match(r'^#[0-9a-f]{6}$', hcl):
-        return True
-    return False
-
-
-def validate_pid(pid):
-    """ Given a passport ID `pid`, return True if valid """
-    if re.match(r'^[0-9]{9}$', pid):
-        return True
-    return False
-
-
 def validate_field(fvp):
     """ Takes a field-value-pair (`fvp`) string, like 'byr:2002'.
 
@@ -87,9 +73,9 @@ def validate_field(fvp):
         'iyr': lambda x: between(x, 2010, 2020),
         'eyr': lambda x: between(x, 2020, 2030),
         'hgt': validate_hgt,
-        'hcl': validate_hcl,
+        'hcl': lambda x: re.match(r'^#[0-9a-f]{6}$', x),
         'ecl': lambda x: x in ['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth'],
-        'pid': validate_pid,
+        'pid': lambda x: re.match(r'^[0-9]{9}$', x),
         'cid': lambda x: True
     }
 
